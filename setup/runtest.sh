@@ -63,12 +63,13 @@ __EOF__
 function Client()
 {
     rlPhaseStartTest "Configure Beaker client"
-    cat <<__EOF__ >/etc/beaker/client.conf
+    stat /etc/beaker
+    cat >/etc/beaker/client.conf <<EOF
 HUB_URL = "http://$SERVER/bkr"
 AUTH_METHOD = "password"
 USERNAME = "admin"
 PASSWORD = "testing"
-__EOF__
+EOF
     rlAssert0 "Wrote /etc/beaker/client.conf" $?
     rlPhaseEnd
 }
@@ -106,7 +107,7 @@ EOF
         rlAssertRpm MySQL-python
         # Backup /etc/my.cnf and update the config
         rlRun "cp /etc/my.cnf /etc/my.cnf-orig" 0
-        cat /etc/my.cnf-orig | awk '
+        cat </etc/my.cnf-orig | awk '
             {print $0};
             /\[mysqld\]/ {
                 print "max_allowed_packet=50M";
