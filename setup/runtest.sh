@@ -63,7 +63,8 @@ __EOF__
 function Client()
 {
     rlPhaseStartTest "Configure Beaker client"
-    stat /etc/beaker
+    rlRun "mkdir /etc/beaker"
+    stat "/etc/beaker"
     cat >/etc/beaker/client.conf <<EOF
 HUB_URL = "http://$SERVER/bkr"
 AUTH_METHOD = "password"
